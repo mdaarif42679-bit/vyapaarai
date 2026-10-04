@@ -1,0 +1,471 @@
+"use client";
+import { useRef, useState } from "react";
+import { BUSINESS_TYPES, type CampaignResponse } from "@/lib/types";
+
+const STAGES = [
+  "Product uploaded",
+  "Analyzing product",
+  "Identifying audience",
+  "Choosing marketing strategy",
+  "Creating campaign",
+  "Preparing media assets",
+  "Optimizing with Cloudinary",
+];
+
+const DIRS = [
+  ["VALUE", "Affordable + offer"],
+  ["QUALITY", "Trust + product quality"],
+  ["URGENCY", "Limited time + demand"],
+];
+
+const OCCASIONS = [
+  ["Product Launch", "Hype + new arrival"],
+  ["Weekend Offer", "Limited weekend flash deal"],
+  ["Festival Promotion", "Gifting + celebrations"],
+  ["Clearance Sale", "Steep discounts + last stock"],
+];
+
+function Copy({ text, label = "Copy" }: { text: string; label?: string }) {
+  const [done, setDone] = useState(false);
+  return (
+    <button
+      type="button"
+      className="btn alt"
+      onClick={async () => {
+        await navigator.clipboard.writeText(text);
+        setDone(true);
+        setTimeout(() => setDone(false), 1500);
+      }}
+    >
+      {done ? "Copied" : label}
+    </button>
+  );
+}
+
+async function download(url: string, name: string) {
+  try {
+    const r = await fetch(url.replace("f_auto", "f_jpg"));
+    if (!r.ok) throw new Error();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(await r.blob());
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  } catch {
+    window.open(url, "_blank");
+  }
+}
+
+export default function Home() {
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [stage, setStage] = useState(-1);
+  const [error, setError] = useState("");
+  const [resultError, setResultError] = useState("");
+  const [submittingAction, setSubmittingAction] = useState("");
+  const [selectedDir, setSelectedDir] = useState("");
+  const [res, setRes] = useState<CampaignResponse | null>(null);
+  const [drag, setDrag] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const pick = (f?: File) => {
+    if (!f) return;
+    if (!f.type.startsWith("image/")) {
+      return setError("That file isn't an image. Choose a JPG, PNG or WebP.");
+    }
+    setError("");
+    setResultError("");
+    setFile(f);
+    setPreview(URL.createObjectURL(f));
+  };
+
+  async function run(extra: Record<string, string> = {}) {
+    if (!formRef.current) return;
+    if (!file && !res) return setError("Add a product photo first.");
+    setError("");
+    setResultError("");
+    setStage(0);
+
+    if (extra.direction) setSubmittingAction(`direction:${extra.direction}`);
+    else if (extra.occasion) setSubmittingAction(`occasion:${extra.occasion}`);
+    else setSubmittingAction("main");
+
+    const timer = setInterval(() => setStage((s) => Math.min(s + 1, STAGES.length - 1)), 2200);
+
+    try {
+      const fd = new FormData(formRef.current);
+      if (res?.publicId) fd.set("publicId", res.publicId);
+      else if (file) fd.set("image", file);
+
+      // Preserve existing or form-selected direction & occasion
+      const activeDir = extra.direction || res?.direction || selectedDir;
+      if (activeDir) fd.set("direction", activeDir);
+
+      const activeOccasion = extra.occasion || res?.occasion;
+      if (activeOccasion) fd.set("occasion", activeOccasion);
+
+      // Overrides
+      Object.entries(extra).forEach(([k, v]) => fd.set(k, v));
+
+      const r = await fetch("/api/campaign", { method: "POST", body: fd });
+      const data = await r.json().catch(() => ({ error: "Unexpected server response." }));
+      if (!r.ok) throw new Error(data.error);
+
+      setRes(data);
+      if (data.direction) setSelectedDir(data.direction);
+      setTimeout(() => document.getElementById("result")?.scrollIntoView({ behavior: "smooth" }), 100);
+    } catch (e) {
+      const msg =
+        (e as Error).message === "Failed to fetch"
+          ? "Network problem. Check your connection and try again."
+          : (e as Error).message;
+      setError(msg);
+      setResultError(msg);
+    } finally {
+      clearInterval(timer);
+      setStage(-1);
+      setSubmittingAction("");
+    }
+  }
+
+  const busy = stage >= 0;
+  const c = res?.campaign;
+
+  return (
+    <>
+      <div className="wrap">
+        <nav>
+          <b>VyapaarAI</b>
+          <div>
+            <a href="#how">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#create">Create Campaign</a>
+          </div>
+        </nav>
+
+        <section className="hero">
+          <h1>One Product Photo. Complete Marketing Campaign.</h1>
+          <p>
+            Turn your product image into a ready-to-use marketing campaign with AI-powered strategy and Cloudinary-powered media.
+          </p>
+          <a className="btn" href="#create">
+            Create Campaign
+          </a>
+        </section>
+
+        <div className="flow" id="how">
+          {[
+            ["Upload", "Photo goes to Cloudinary"],
+            ["Understand", "AI reads the product"],
+            ["Strategize", "Picks angle and offer"],
+            ["Create", "Captions, story, status"],
+            ["Ready to post", "Sized for every platform"],
+          ].map(([a, b]) => (
+            <div key={a}>
+              <b>{a}</b>
+              <span>{b}</span>
+            </div>
+          ))}
+        </div>
+
+        <section className="sec" id="features">
+          <h2>Why VyapaarAI?</h2>
+          <div className="grid3">
+            <div className="card">
+              <h3>It decides, not just writes</h3>
+              <p>You see the audience, angle and offer the AI chose, and why.</p>
+            </div>
+            <div className="card">
+              <h3>Media sized for each platform</h3>
+              <p>Cloudinary crops, optimizes and brands your photo for Post, Story and WhatsApp.</p>
+            </div>
+            <div className="card">
+              <h3>Sounds like your business</h3>
+              <p>Your name, tone and location shape every line.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="sec" id="create">
+          <h2>Create your campaign</h2>
+          <form
+            ref={formRef}
+            className="creator"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setRes(null);
+              run();
+            }}
+          >
+            <div className="full">
+              <div
+                className={`drop ${drag ? "on" : ""}`}
+                role="button"
+                tabIndex={0}
+                onClick={() => document.getElementById("f")?.click()}
+                onKeyDown={(e) => e.key === "Enter" && document.getElementById("f")?.click()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDrag(true);
+                }}
+                onDragLeave={() => setDrag(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setDrag(false);
+                  pick(e.dataTransfer.files[0]);
+                }}
+              >
+                {preview ? <img src={preview} alt="Product preview" /> : <span>Drop your product photo here, or click to browse</span>}
+              </div>
+              <input id="f" type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={(e) => pick(e.target.files?.[0])} />
+            </div>
+
+            <label>
+              Business name
+              <input name="business" defaultValue="Aarif Fashion" required maxLength={80} />
+            </label>
+            <label>
+              Product name
+              <input name="product" defaultValue="Men's Casual Shirt" required maxLength={80} />
+            </label>
+            <label>
+              Price (₹)
+              <input name="price" inputMode="numeric" defaultValue="599" required maxLength={20} />
+            </label>
+            <label>
+              Business type
+              <select name="type" defaultValue="Clothing">
+                {BUSINESS_TYPES.map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Target audience
+              <input name="audience" defaultValue="College students" required maxLength={80} />
+            </label>
+            <label>
+              Location
+              <input name="location" defaultValue="Bhilai" required maxLength={80} />
+            </label>
+            <label>
+              Brand tone
+              <select name="tone" defaultValue="Friendly">
+                {["Friendly", "Premium", "Playful", "Traditional", "Bold"].map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Brand color
+              <input name="color" type="color" defaultValue="#1c1b2e" />
+            </label>
+
+            <div className="full">
+              <label style={{ display: "block", marginBottom: 6 }}>Campaign focus (optional)</label>
+              <div className="dirs" style={{ margin: "4px 0 10px" }}>
+                {DIRS.map(([d, s]) => (
+                  <button
+                    key={d}
+                    type="button"
+                    className={selectedDir === d ? "sel" : ""}
+                    onClick={() => setSelectedDir(selectedDir === d ? "" : d)}
+                  >
+                    {d}
+                    <small>{s}</small>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <label className="full">
+              About the business (optional)
+              <textarea name="description" rows={2} maxLength={400} />
+            </label>
+            <div className="full">
+              <button className="btn" disabled={busy}>
+                {busy && submittingAction === "main" ? "Working…" : "Generate Campaign"}
+              </button>
+            </div>
+          </form>
+
+          {error && <div className="err" role="alert">{error}</div>}
+
+          {busy && (
+            <div className="card" style={{ marginTop: 16 }}>
+              <ul className="stages">
+                {STAGES.map((s, i) => (
+                  <li key={s} className={i < stage ? "done" : i === stage ? "cur" : ""}>
+                    <span>{i < stage ? "✓" : i === stage ? "→" : "·"}</span>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+
+        {res && c && (
+          <section className="sec" id="result">
+            <h2>Your Campaign is Ready</h2>
+            <div className="strategy">
+              <h3>AI Campaign Strategy</h3>
+              <div className="sgrid">
+                {[
+                  ["Target audience", c.productAnalysis.targetAudience],
+                  ["Marketing angle", c.strategy.marketingAngle],
+                  ["Campaign type", c.strategy.campaignType],
+                  ["Offer", c.strategy.offer],
+                  ["Call to action", c.strategy.cta],
+                  ["Product", `${c.productAnalysis.category}`],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <h3>{k}</h3>
+                    <p>{v}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="why">
+                <b>Why this strategy: </b>
+                {c.strategy.reason}
+              </p>
+            </div>
+
+            <h3 style={{ marginTop: 24, marginBottom: 8, fontSize: 18 }}>Pivot Campaign Focus</h3>
+            <div className="dirs" aria-label="Campaign direction">
+              {DIRS.map(([d, s]) => (
+                <button
+                  key={d}
+                  type="button"
+                  disabled={busy}
+                  className={res.direction === d ? "sel" : ""}
+                  onClick={() => run({ direction: d })}
+                >
+                  {busy && submittingAction === `direction:${d}` ? "⏳ " : ""}
+                  {d}
+                  {c.strategy.recommendedDirection === d && res.direction !== d ? " (recommended)" : ""}
+                  <small>{s}</small>
+                </button>
+              ))}
+            </div>
+
+            {busy && submittingAction.startsWith("direction:") && (
+              <p style={{ color: "var(--saffron)", fontWeight: 600, margin: "8px 0" }}>
+                ⏳ Regenerating campaign with {submittingAction.replace("direction:", "")} angle...
+              </p>
+            )}
+
+            {resultError && (
+              <div className="err" role="alert" style={{ margin: "12px 0" }}>
+                {resultError}
+              </div>
+            )}
+
+            <div className="assets">
+              <div className="card">
+                <h3>Instagram Post</h3>
+                <img src={res.assets.post} alt="Instagram post" />
+                <p className="txt">{c.content.instagramCaption}</p>
+                <div className="row">
+                  <Copy text={c.content.instagramCaption} label="Copy Caption" />
+                  <button type="button" className="btn alt" onClick={() => download(res.assets.post, "vyapaarai-post.jpg")}>
+                    Download
+                  </button>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3>Instagram Story</h3>
+                <img src={res.assets.story} alt="Instagram story" />
+                <p className="txt">{c.content.instagramStory}</p>
+                <div className="row">
+                  <Copy text={c.content.instagramStory} label="Copy Text" />
+                  <button type="button" className="btn alt" onClick={() => download(res.assets.story, "vyapaarai-story.jpg")}>
+                    Download
+                  </button>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3>WhatsApp Status</h3>
+                <img src={res.assets.social} alt="WhatsApp image" />
+                <p className="txt">{c.content.whatsappStatus}</p>
+                <div className="row">
+                  <Copy text={c.content.whatsappStatus} label="Copy Text" />
+                  <button type="button" className="btn alt" onClick={() => download(res.assets.social, "vyapaarai-social.jpg")}>
+                    Download
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid3" style={{ marginTop: 18 }}>
+              <div className="card">
+                <h3>Product Description</h3>
+                <p className="txt">{c.content.productDescription}</p>
+                <Copy text={c.content.productDescription} />
+              </div>
+              <div className="card">
+                <h3>Hashtags</h3>
+                <div style={{ marginBottom: 10 }}>
+                  {c.content.hashtags.map((h) => (
+                    <span className="tag" key={h}>
+                      {h.startsWith("#") ? h : "#" + h}
+                    </span>
+                  ))}
+                </div>
+                <Copy text={c.content.hashtags.map((h) => (h.startsWith("#") ? h : "#" + h)).join(" ")} label="Copy all" />
+              </div>
+              <div className="card q">
+                <h3>Campaign Quality</h3>
+                {(
+                  [
+                    ["Audience fit", c.quality.audienceFit],
+                    ["CTA clarity", c.quality.ctaClarity],
+                    ["Offer clarity", c.quality.offerClarity],
+                    ["Brand consistency", c.quality.brandConsistency],
+                  ] as [string, number][]
+                ).map(([k, v]) => (
+                  <div key={k}>
+                    <small>
+                      {k}: {v}/10
+                    </small>
+                    <div className="bar">
+                      <i style={{ width: `${v * 10}%` }} />
+                    </div>
+                  </div>
+                ))}
+                <p>{c.quality.suggestion}</p>
+              </div>
+            </div>
+
+            <h2 style={{ marginTop: 40, fontSize: 24 }}>Create another campaign from this photo</h2>
+            <div className="dirs">
+              {OCCASIONS.map(([o, sub]) => (
+                <button
+                  key={o}
+                  type="button"
+                  disabled={busy}
+                  className={res.occasion === o ? "sel" : ""}
+                  onClick={() => run({ occasion: o })}
+                >
+                  {busy && submittingAction === `occasion:${o}` ? "⏳ " : ""}
+                  {o}
+                  <small>{sub}</small>
+                </button>
+              ))}
+            </div>
+
+            {busy && submittingAction.startsWith("occasion:") && (
+              <p style={{ color: "var(--saffron)", fontWeight: 600, margin: "8px 0" }}>
+                ⏳ Crafting campaign for {submittingAction.replace("occasion:", "")}...
+              </p>
+            )}
+          </section>
+        )}
+
+        <footer>VyapaarAI. Copy, download and post — nothing is auto-published.</footer>
+      </div>
+    </>
+  );
+}

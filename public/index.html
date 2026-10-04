@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VyapaarAI — One Product Photo. Complete Marketing Campaign for Bharat</title>
+  <meta name="description" content="Turn 1 product photo into a full multi-platform marketing campaign for small businesses. Powered by Gemini Multimodal AI & Cloudinary.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Background Mesh -->
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="mesh-orb mesh-orb-1"></div>
+    <div class="mesh-orb mesh-orb-2"></div>
+    <div class="mesh-orb mesh-orb-3"></div>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <div class="container">
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <a href="#" class="brand-wrapper">
+        <div class="brand-icon">V</div>
+        <div class="brand-name">
+          VyapaarAI
+          <span class="brand-badge">व्यापार AI 2026</span>
+        </div>
+      </a>
+
+      <nav class="nav-center">
+        <a href="#studio" class="nav-link">✨ AI Studio</a>
+        <a href="#how" class="nav-link">⚡ Workflow</a>
+        <a href="#comparison" class="nav-link">📊 Comparison</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="status-pill" id="backend-status-pill" title="System Connection Status">
+          <span class="status-dot" id="backend-status-dot"></span>
+          <span id="backend-status-text">Checking API...</span>
+        </div>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          ☀️
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <span>🚀 Multimodal AI for Bharat's 63M+ Businesses</span>
+      </div>
+
+      <h1>
+        One Product Photo. <br>
+        <span class="text-gradient">Complete Marketing Campaign.</span>
+      </h1>
+
+      <p class="hero-desc">
+        Small businesses upload one photo. VyapaarAI’s Gemini Vision makes the strategic marketing decision (audience, angle, offer, CTA), drafts localized copy, and generates platform-ready branded media with Cloudinary.
+      </p>
+
+      <!-- Live Quick Metrics -->
+      <div class="metrics-row">
+        <div class="metric-badge">
+          <span>⚡ Generation:</span>
+          <span class="val">5 Seconds</span>
+        </div>
+        <div class="metric-badge">
+          <span>💰 Agency Cost:</span>
+          <span class="val">₹0</span>
+        </div>
+        <div class="metric-badge">
+          <span>📱 Ready Formats:</span>
+          <span class="val">1:1, 9:16 & WhatsApp</span>
+        </div>
+        <div class="metric-badge">
+          <span>🎯 Conversion Score:</span>
+          <span class="val">AI-Audited /10</span>
+        </div>
+      </div>
+
+      <!-- One-Click Preset Demos (For Hackathon Judges) -->
+      <div class="sample-presets-bar">
+        <div class="sample-presets-label">
+          <span>⚡ 1-Click Demo Presets:</span>
+        </div>
+        <button type="button" class="preset-chip" data-preset="shirt">
+          <img src="samples/shirt.jpg" alt="Aarif Fashion shirt">
+          <span>👔 Aarif Fashion (Shirt - ₹599)</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="chai">
+          <img src="samples/chai.jpg" alt="Kulhad Chai">
+          <span>☕ Kulhad Cafe (Chai - ₹129)</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="sweets">
+          <img src="samples/sweets.jpg" alt="Kaju Katli box">
+          <span>🪔 Shree Sweets (Kaju Katli - ₹850)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Workflow Strip -->
+    <div class="workflow-strip" id="how">
+      <div class="step-card">
+        <span class="step-num">STAGE 01</span>
+        <b>1-Click Upload</b>
+        <span>High-res photo sent to Cloudinary CDN</span>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STAGE 02</span>
+        <b>Gemini Vision</b>
+        <span>Multimodal AI decodes product texture & tier</span>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STAGE 03</span>
+        <b>Strategy Engine</b>
+        <span>Picks psychological angle, offer & CTA</span>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STAGE 04</span>
+        <b>Localized Copy</b>
+        <span>Instagram caption, story & WhatsApp status</span>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STAGE 05</span>
+        <b>Branded Overlays</b>
+        <span>Smart g_auto crop + brand badge on 3 formats</span>
+      </div>
+    </div>
+
+    <!-- Main Campaign Studio Creation Hub -->
+    <main class="studio-layout" id="studio">
+
+      <!-- Left Column: Photo Upload & Preview -->
+      <div class="upload-column">
+        <div class="glass-panel dropzone-card">
+          <div class="drop-area" id="drop-area">
+            <div id="drop-prompt">
+              <div class="drop-icon">📸</div>
+              <p class="drop-prompt">Drop your product photo here</p>
+              <p class="drop-sub">or click to browse from device (JPG, PNG, WebP)</p>
+            </div>
+
+            <div class="preview-container" id="preview-container">
+              <img id="preview-img" src="" alt="Selected product preview">
+              <div class="preview-overlay">
+                <button type="button" class="icon-btn-round" id="remove-image-btn" title="Remove image">✕</button>
+              </div>
+            </div>
+
+            <input type="file" id="product-file-input" accept="image/jpeg,image/png,image/webp" hidden>
+          </div>
+
+          <div class="preview-badge-row">
+            <span>Asset Status: <strong id="resolution-badge" style="color:var(--accent-saffron)">Ready</strong></span>
+            <span>Max size: 10MB</span>
+          </div>
+
+          <!-- Quick Samples Strip -->
+          <div class="quick-samples">
+            <div class="quick-samples-title">
+              <span>Try with Instant Sample Photos</span>
+              <small style="color:var(--accent-indigo)">1-Click Load</small>
+            </div>
+            <div class="sample-thumbs">
+              <div class="sample-thumb-item" data-preset="shirt">
+                <img src="samples/shirt.jpg" alt="Casual shirt sample">
+                <span>Shirt (₹599)</span>
+              </div>
+              <div class="sample-thumb-item" data-preset="chai">
+                <img src="samples/chai.jpg" alt="Kulhad chai sample">
+                <span>Chai (₹129)</span>
+              </div>
+              <div class="sample-thumb-item" data-preset="sweets">
+                <img src="samples/sweets.jpg" alt="Kaju katli sample">
+                <span>Sweets (₹850)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Campaign Parameters Form -->
+      <div class="form-column">
+        <div class="glass-panel form-panel">
+          <div class="form-header">
+            <h2>Campaign Studio Parameters</h2>
+            <p>Define your brand identity and let VyapaarAI formulate the winning strategy.</p>
+          </div>
+
+          <form id="campaign-form" class="form-grid">
+
+            <!-- Business Name -->
+            <div class="form-group">
+              <label class="form-label" for="business-name-input">
+                <span>Business / Brand Name</span>
+                <small>Required</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🏢</span>
+                <input type="text" id="business-name-input" class="form-input" placeholder="e.g. Aarif Fashion" required maxlength="80">
+              </div>
+            </div>
+
+            <!-- Business Category -->
+            <div class="form-group">
+              <label class="form-label" for="business-type-select">
+                <span>Business Category</span>
+                <small>Required</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🏷️</span>
+                <select id="business-type-select" class="form-select">
+                  <option value="Clothing & Apparel">Clothing & Apparel</option>
+                  <option value="Food & Cafe">Restaurant, Cafe & Street Food</option>
+                  <option value="Bakery & Sweets">Bakery & Traditional Sweets</option>
+                  <option value="Salon & Beauty">Salon, Spa & Beauty Care</option>
+                  <option value="Jewelry & Crafts">Jewelry & Handcrafted Gifts</option>
+                  <option value="Electronics">Electronics & Mobile Accessories</option>
+                  <option value="Kirana & Retail">Kirana & Local Grocery</option>
+                  <option value="Home Decor">Home Decor & Furnishings</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Product Name -->
+            <div class="form-group">
+              <label class="form-label" for="product-name-input">
+                <span>Product Name</span>
+                <small>Required</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🛍️</span>
+                <input type="text" id="product-name-input" class="form-input" placeholder="e.g. Men's Casual Linen Shirt" required maxlength="80">
+              </div>
+            </div>
+
+            <!-- Price in Rupees -->
+            <div class="form-group">
+              <label class="form-label" for="price-input">
+                <span>Selling Price (₹)</span>
+                <small>Overlay Badge</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">₹</span>
+                <input type="text" id="price-input" class="form-input" inputmode="numeric" placeholder="599" required maxlength="20">
+              </div>
+            </div>
+
+            <!-- Target Audience -->
+            <div class="form-group">
+              <label class="form-label" for="audience-input">
+                <span>Target Audience</span>
+                <small>Psychographic Fit</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🎯</span>
+                <input type="text" id="audience-input" class="form-input" placeholder="e.g. College students & young professionals" required maxlength="80">
+              </div>
+            </div>
+
+            <!-- Location / City -->
+            <div class="form-group">
+              <label class="form-label" for="location-input">
+                <span>Location / City</span>
+                <small>Local Hook</small>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">📍</span>
+                <input type="text" id="location-input" class="form-input" placeholder="e.g. Bhilai, Chhattisgarh" required maxlength="80">
+              </div>
+            </div>
+
+            <!-- Brand Tone -->
+            <div class="form-group">
+              <label class="form-label" for="brand-tone-select">
+                <span>Brand Tone of Voice</span>
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🗣️</span>
+                <select id="brand-tone-select" class="form-select">
+                  <option value="Friendly">Friendly & Approachable</option>
+                  <option value="Premium">Premium & Luxurious</option>
+                  <option value="Playful & Fun">Playful & Energetic</option>
+                  <option value="Desi Traditional">Desi & Traditional Trust</option>
+                  <option value="Bold">Bold & Urgency Driven</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Brand Accent Color -->
+            <div class="form-group">
+              <label class="form-label" for="brand-color-input">
+                <span>Brand Color (Creative Overlays)</span>
+              </label>
+              <div class="color-picker-row">
+                <input type="color" id="brand-color-input" class="color-input-btn" value="#1c1b2e">
+                <div class="color-swatches">
+                  <div class="color-swatch active" data-color="#1c1b2e" style="background:#1c1b2e;" title="Obsidian Navy"></div>
+                  <div class="color-swatch" data-color="#e8920c" style="background:#e8920c;" title="Saffron Gold"></div>
+                  <div class="color-swatch" data-color="#b91c1c" style="background:#b91c1c;" title="Royal Maroon"></div>
+                  <div class="color-swatch" data-color="#0284c7" style="background:#0284c7;" title="Peacock Blue"></div>
+                  <div class="color-swatch" data-color="#059669" style="background:#059669;" title="Emerald Green"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Strategic Direction Override -->
+            <div class="form-group col-full">
+              <label class="form-label">
+                <span>Campaign Focus Direction (Optional)</span>
+                <small>AI can also pick automatically</small>
+              </label>
+              <div class="chips-group">
+                <button type="button" class="chip-btn direction-chip selected" data-direction="VALUE">
+                  <strong>💰 VALUE</strong>
+                  <small>Affordable pricing & deals</small>
+                </button>
+                <button type="button" class="chip-btn direction-chip" data-direction="QUALITY">
+                  <strong>💎 QUALITY</strong>
+                  <small>Trust & craftsmanship</small>
+                </button>
+                <button type="button" class="chip-btn direction-chip" data-direction="URGENCY">
+                  <strong>🔥 URGENCY</strong>
+                  <small>Limited stock & FOMO</small>
+                </button>
+              </div>
+            </div>
+
+            <!-- Occasion Selector -->
+            <div class="form-group col-full">
+              <label class="form-label">
+                <span>Campaign Occasion / Context</span>
+              </label>
+              <div class="occasion-pills">
+                <button type="button" class="occasion-pill selected" data-occasion="general">General Promotion</button>
+                <button type="button" class="occasion-pill" data-occasion="Festival Promotion">🪔 Festival / Diwali</button>
+                <button type="button" class="occasion-pill" data-occasion="Weekend Offer">⚡ Weekend Flash</button>
+                <button type="button" class="occasion-pill" data-occasion="Product Launch">🚀 New Launch</button>
+                <button type="button" class="occasion-pill" data-occasion="Clearance Sale">🏷️ Stock Clearance</button>
+              </div>
+            </div>
+
+            <!-- Business Description / Context -->
+            <div class="form-group col-full">
+              <label class="form-label" for="description-input">
+                <span>About the Business / Special Context (Optional)</span>
+                <small>Max 400 chars</small>
+              </label>
+              <textarea id="description-input" class="form-textarea" rows="2" placeholder="e.g. 100% pure linen casual shirts stitched locally in Chhattisgarh with double-stitched seams."></textarea>
+            </div>
+
+            <!-- Generate CTA Button -->
+            <div class="form-group col-full" style="margin-top: 10px;">
+              <button type="submit" class="btn-primary-glow" id="generate-btn">
+                <span>⚡</span>
+                <span>Generate Full Marketing Campaign</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Live AI Pipeline Progress Modal -->
+    <div class="progress-overlay" id="progress-overlay">
+      <div class="progress-box">
+        <div class="progress-spinner">
+          <div class="spinner-outer"></div>
+          <div class="spinner-inner"></div>
+        </div>
+        <h3 class="progress-title">VyapaarAI Brain Working</h3>
+        <p class="progress-subtitle">Gemini Vision is analyzing your product & Cloudinary is preparing branded assets...</p>
+        <ul class="pipeline-steps" id="pipeline-steps-list">
+          <!-- Populated by JavaScript -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         CAMPAIGN COMMAND CENTER (RESULTS SECTION)
+         ========================================== -->
+    <section id="results-section">
+
+      <!-- Top Result Header Banner -->
+      <div class="glass-panel result-header-panel">
+        <div class="result-header-info">
+          <h2>
+            <span>Campaign Command Center</span>
+            <span class="result-badge" id="recommended-direction-badge">AI Strategy: VALUE</span>
+          </h2>
+          <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">
+            Your multimodal assets and high-conversion copy are ready for immediate deployment.
+          </p>
+        </div>
+
+        <div class="result-actions">
+          <button type="button" class="btn-secondary" id="copy-all-text-btn">
+            <span>📋</span>
+            <span>Copy All Copy</span>
+          </button>
+          <button type="button" class="btn-primary-glow" style="width:auto; padding:10px 20px; font-size:14px;" id="download-all-assets-btn">
+            <span>📥</span>
+            <span>Download All Assets (3 Formats)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Strategy Blueprint Card -->
+      <div class="glass-panel strategy-card">
+        <div class="strategy-title-row">
+          <h3>
+            <span>🧠</span>
+            <span>AI Strategic Decision Matrix</span>
+          </h3>
+          <span style="font-size:12px; color:var(--text-subtle); font-family:var(--font-mono)">Gemini 3.8 Flash Multimodal Reasoning</span>
+        </div>
+
+        <div class="strategy-grid">
+          <div class="strategy-metric-box">
+            <small>Target Persona</small>
+            <p id="strategy-audience">—</p>
+          </div>
+          <div class="strategy-metric-box">
+            <small>Core Marketing Angle</small>
+            <p id="strategy-angle">—</p>
+          </div>
+          <div class="strategy-metric-box">
+            <small>Campaign Format</small>
+            <p id="strategy-type">—</p>
+          </div>
+          <div class="strategy-metric-box">
+            <small>Conversion Offer</small>
+            <p id="strategy-offer">—</p>
+          </div>
+          <div class="strategy-metric-box">
+            <small>Call to Action (CTA)</small>
+            <p id="strategy-cta">—</p>
+          </div>
+          <div class="strategy-metric-box">
+            <small>Analyzed Product</small>
+            <p id="strategy-product">—</p>
+          </div>
+        </div>
+
+        <div class="strategy-why-box">
+          <strong>Strategic Rationale:</strong>
+          <span id="strategy-why">—</span>
+        </div>
+      </div>
+
+      <!-- Strategy Pivot Quick Bar -->
+      <div class="pivot-bar">
+        <span class="pivot-label">
+          <span>🔄 Pivot Angle:</span>
+        </span>
+        <button type="button" class="pivot-btn" data-pivot-dir="VALUE">
+          <span>💰 Switch to VALUE</span>
+        </button>
+        <button type="button" class="pivot-btn" data-pivot-dir="QUALITY">
+          <span>💎 Switch to QUALITY</span>
+        </button>
+        <button type="button" class="pivot-btn" data-pivot-dir="URGENCY">
+          <span>🔥 Switch to URGENCY</span>
+        </button>
+
+        <span class="pivot-label" style="margin-left: 12px;">
+          <span>🪔 Pivot Occasion:</span>
+        </span>
+        <button type="button" class="pivot-btn" data-pivot-occ="Festival Promotion">Festival</button>
+        <button type="button" class="pivot-btn" data-pivot-occ="Weekend Offer">Weekend</button>
+        <button type="button" class="pivot-btn" data-pivot-occ="Product Launch">Launch</button>
+        <button type="button" class="pivot-btn" data-pivot-occ="Clearance Sale">Clearance</button>
+      </div>
+
+      <!-- Studio Tabs Switcher -->
+      <div class="studio-tabs">
+        <button type="button" class="tab-btn active" data-tab="all">📱 All Formats</button>
+        <button type="button" class="tab-btn" data-tab="instagram">📸 Instagram Post (1:1)</button>
+        <button type="button" class="tab-btn" data-tab="story">📲 Instagram Story (9:16)</button>
+        <button type="button" class="tab-btn" data-tab="whatsapp">💬 WhatsApp Broadcast</button>
+        <button type="button" class="tab-btn" data-tab="ecommerce">📝 D2C Description</button>
+        <button type="button" class="tab-btn" data-tab="hashtags">🏷️ Hashtags</button>
+      </div>
+
+      <!-- Creative Assets Grid -->
+      <div class="assets-grid">
+
+        <!-- 1. Instagram Feed Post (1:1) -->
+        <div class="glass-panel asset-card" data-card-tab="instagram">
+          <div class="asset-header">
+            <h4>
+              <span>📸</span>
+              <span>Instagram Feed Post (1080×1080)</span>
+            </h4>
+            <span class="asset-badge">1:1 Square</span>
+          </div>
+
+          <!-- Realistic Instagram Mockup -->
+          <div class="mockup-instagram">
+            <div class="ig-user-bar">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div class="ig-avatar">
+                  <div class="ig-avatar-inner">V</div>
+                </div>
+                <span id="ig-user-name">aarif_fashion</span>
+              </div>
+              <span style="font-size:11px; opacity:0.6;">Sponsored · Follow</span>
+            </div>
+
+            <img id="ig-post-img" class="ig-media" src="" alt="Instagram post preview">
+
+            <div class="ig-action-bar">
+              <div style="display:flex; gap:12px;">
+                <span>❤️</span>
+                <span>💬</span>
+                <span>↗️</span>
+              </div>
+              <span>🔖</span>
+            </div>
+            <div class="ig-likes">438 likes</div>
+          </div>
+
+          <div class="copy-box" id="ig-post-caption"></div>
+
+          <div class="card-action-row">
+            <button type="button" class="btn-secondary" id="copy-ig-caption-btn">
+              <span>📋</span>
+              <span>Copy Caption</span>
+            </button>
+            <button type="button" class="btn-secondary" id="download-ig-btn">
+              <span>📥</span>
+              <span>Download 1:1 Image</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Instagram Story (9:16) -->
+        <div class="glass-panel asset-card" data-card-tab="story">
+          <div class="asset-header">
+            <h4>
+              <span>📲</span>
+              <span>Instagram Story (1080×1920)</span>
+            </h4>
+            <span class="asset-badge">9:16 Vertical</span>
+          </div>
+
+          <!-- Realistic Story Mockup -->
+          <div class="mockup-story">
+            <div class="story-progress-bar"></div>
+            <div class="story-header">
+              <div class="ig-avatar" style="width:24px; height:24px;">
+                <div class="ig-avatar-inner" style="font-size:9px;">V</div>
+              </div>
+              <span id="story-user-name">Aarif Fashion</span>
+              <span style="font-size:10px; opacity:0.7;">2h</span>
+            </div>
+
+            <img id="story-img" class="story-media" src="" alt="Instagram story preview">
+
+            <div class="story-sticker">
+              <span>🛒 ORDER ON WHATSAPP</span>
+            </div>
+          </div>
+
+          <div class="copy-box" id="story-text"></div>
+
+          <div class="card-action-row">
+            <button type="button" class="btn-secondary" id="copy-story-btn">
+              <span>📋</span>
+              <span>Copy Story Text</span>
+            </button>
+            <button type="button" class="btn-secondary" id="download-story-btn">
+              <span>📥</span>
+              <span>Download 9:16 Story</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. WhatsApp Status & Broadcast (1200×628) -->
+        <div class="glass-panel asset-card" data-card-tab="whatsapp">
+          <div class="asset-header">
+            <h4>
+              <span>💬</span>
+              <span>WhatsApp Status & Broadcast</span>
+            </h4>
+            <span class="asset-badge">1200×628 Social</span>
+          </div>
+
+          <!-- Realistic WhatsApp Chat Mockup -->
+          <div class="mockup-whatsapp">
+            <div class="wa-bubble">
+              <img id="wa-img" class="wa-media" src="" alt="WhatsApp status creative">
+              <div id="wa-text" style="white-space:pre-wrap;"></div>
+              <div class="wa-time">11:45 AM ✓✓</div>
+            </div>
+          </div>
+
+          <div class="card-action-row">
+            <button type="button" class="btn-secondary" id="share-wa-btn" style="background:#075e54; color:#fff; border-color:#128c7e;">
+              <span>📲</span>
+              <span>Share to WhatsApp</span>
+            </button>
+            <button type="button" class="btn-secondary" id="copy-wa-btn">
+              <span>📋</span>
+              <span>Copy Text</span>
+            </button>
+            <button type="button" class="btn-secondary" id="download-wa-btn">
+              <span>📥</span>
+              <span>Download Banner</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. D2C & eCommerce Product Description -->
+        <div class="glass-panel asset-card" data-card-tab="ecommerce">
+          <div class="asset-header">
+            <h4>
+              <span>📝</span>
+              <span>E-Commerce & D2C Description</span>
+            </h4>
+            <span class="asset-badge">Listing Copy</span>
+          </div>
+
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">
+            Optimized for Amazon, Flipkart, Shopify, or catalog broadcast.
+          </p>
+
+          <div class="copy-box" id="product-desc-text" style="min-height:160px;"></div>
+
+          <div class="card-action-row">
+            <button type="button" class="btn-secondary" id="copy-desc-btn">
+              <span>📋</span>
+              <span>Copy Product Description</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Smart Hashtag Vault -->
+        <div class="glass-panel asset-card" data-card-tab="hashtags">
+          <div class="asset-header">
+            <h4>
+              <span>🏷️</span>
+              <span>Conversion-Targeted Hashtags</span>
+            </h4>
+            <span class="asset-badge">Reach & Discovery</span>
+          </div>
+
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">
+            Click any tag to copy individually, or copy the full curated set.
+          </p>
+
+          <div class="hashtag-cloud" id="hashtag-cloud">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="card-action-row">
+            <button type="button" class="btn-secondary" id="copy-all-hashtags-btn">
+              <span>📋</span>
+              <span>Copy All #Hashtags</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AI Quality Audit & Health Card -->
+      <div class="glass-panel audit-panel">
+        <h3 style="font-size:18px; display:flex; align-items:center; gap:8px;">
+          <span>🎯</span>
+          <span>AI Conversion Health Audit</span>
+        </h3>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
+          Autonomous multi-factor quality scoring formulated by Gemini's marketing critic.
+        </p>
+
+        <div class="audit-grid">
+          <div class="audit-metric">
+            <div class="audit-label-row">
+              <span>Audience Psychographic Fit</span>
+              <strong id="audit-audience-val" style="color:var(--accent-saffron);">9.6/10</strong>
+            </div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="audit-audience-bar" style="width:96%;"></div>
+            </div>
+          </div>
+
+          <div class="audit-metric">
+            <div class="audit-label-row">
+              <span>Call-To-Action Clarity</span>
+              <strong id="audit-cta-val" style="color:var(--accent-emerald);">9.8/10</strong>
+            </div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="audit-cta-bar" style="width:98%;"></div>
+            </div>
+          </div>
+
+          <div class="audit-metric">
+            <div class="audit-label-row">
+              <span>Offer Appeal & Hook</span>
+              <strong id="audit-offer-val" style="color:var(--accent-saffron);">9.4/10</strong>
+            </div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="audit-offer-bar" style="width:94%;"></div>
+            </div>
+          </div>
+
+          <div class="audit-metric">
+            <div class="audit-label-row">
+              <span>Brand Tone Consistency</span>
+              <strong id="audit-brand-val" style="color:var(--accent-indigo);">9.7/10</strong>
+            </div>
+            <div class="score-bar">
+              <div class="score-bar-fill" id="audit-brand-bar" style="width:97%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-critique" id="audit-critique-text">
+          <strong>💡 AI Marketer's Advice:</strong> Pair this Instagram post with a 15-second unboxing reel or customer review in Hindi/Hinglish for an additional 40% reach boost.
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Why VyapaarAI Wins (Comparison Section) -->
+    <section class="comparison-section" id="comparison">
+      <div class="hero-tag">
+        <span>🏆 Why VyapaarAI Wins for Indian MSMEs</span>
+      </div>
+      <h2>Traditional Agencies vs. VyapaarAI</h2>
+      <p style="color:var(--text-muted); max-width:600px; margin:0 auto 20px;">
+        Bharat has 63 Million+ small enterprises. 94% cannot afford marketing agencies. VyapaarAI democratizes enterprise-grade marketing.
+      </p>
+
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature Matrix</th>
+              <th>Traditional Digital Agency</th>
+              <th style="color:var(--accent-saffron)">VyapaarAI Engine</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Turnaround Time</strong></td>
+              <td>3 to 7 Days per Campaign</td>
+              <td class="highlight">⚡ 5 Seconds on the Fly</td>
+            </tr>
+            <tr>
+              <td><strong>Monthly Cost</strong></td>
+              <td>₹15,000 to ₹50,000 Retainer</td>
+              <td class="highlight">₹0 (Free / Pay-per-use API)</td>
+            </tr>
+            <tr>
+              <td><strong>Strategic Angle Decision</strong></td>
+              <td>Junior copywriter guess</td>
+              <td class="highlight">Gemini Multimodal Vision + Consumer Psychology</td>
+            </tr>
+            <tr>
+              <td><strong>Ready-to-Post Media</strong></td>
+              <td>Manual Canva resizing</td>
+              <td class="highlight">Cloudinary g_auto smart crop + branded overlays</td>
+            </tr>
+            <tr>
+              <td><strong>Hyperlocal Bharat Support</strong></td>
+              <td>Generic English copy</td>
+              <td class="highlight">Hindi / Hinglish & Tier 2/3 city context</td>
+            </tr>
+            <tr>
+              <td><strong>Instant Angle Pivoting</strong></td>
+              <td>Wait another 48 hours</td>
+              <td class="highlight">1-Click re-roll (Value / Quality / Urgency)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-tech-stack">
+        <span class="tech-tag">⚡ Google Gemini 3.8 / 2.5 Flash</span>
+        <span class="tech-tag">☁️ Cloudinary Media Experience Cloud</span>
+        <span class="tech-tag">⚛️ Next.js 14 App Router</span>
+        <span class="tech-tag">🛡️ Node.js Zod Validation</span>
+        <span class="tech-tag">🎨 Modern Glassmorphism CSS</span>
+      </div>
+      <p>© 2026 VyapaarAI. Empowering Bharat's Small Businesses with Multimodal Generative AI.</p>
+      <p style="font-size:12px; margin-top:6px; opacity:0.7;">Copy, download and post — nothing is auto-published without your review.</p>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
